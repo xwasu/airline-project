@@ -1,0 +1,12 @@
+{% extends "flights/layout.html" %}
+
+{% block body %}
+    <h1>Airports</h1>
+    <ul>
+        {% for airport in airports %}
+            <li>Airport {{ airport.code }}: {{ airport.city }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'index' %}">Back to Flight List</a>
+{% endblock %}
