@@ -1,11 +1,18 @@
 {% extends "flights/layout.html" %}
 
 {% block body %}
-    <h1>Welcome, {{ request.user.first_name }}</h1>
-    <ul>
-        <li>Username: {{ request.user.username }}</li>
-        <li>Email: {{ request.user.email }}</li>
-    </ul>
+    {% if request.user.is_authenticated %}
+        <h1>Welcome, {{ request.user.first_name }}</h1>
+        <ul>
+            <li>Username: {{ request.user.username }}</li>
+            <li>Email: {{ request.user.email }}</li>
+        </ul>
+    {% else %}
+        <h1>Welcome, Guest</h1>
+        <ul>
+            <li>Username: Guest</li>
+        </ul>
+    {% endif %}
 
     <h1>Flights</h1>
     <ul>

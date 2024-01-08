@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.core.exceptions import ValidationError
+from django.contrib.auth.decorators import login_required
 
 from .models import Flight, Passenger, Airport
 from .forms import PassengerForm, RegistrationForm
@@ -10,8 +11,6 @@ from .forms import PassengerForm, RegistrationForm
 
 # Create your views here.
 def index(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
     return render(request, "flights/index.html", {
         "flights": Flight.objects.all()
     })
@@ -66,9 +65,6 @@ def passengers(request):
     })
     
 def flight(request, flight_id):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-
     try:
         flight = Flight.objects.get(pk=flight_id)
     except (Flight.DoesNotExist, ValueError, ValidationError):
@@ -80,14 +76,22 @@ def flight(request, flight_id):
         "non_passengers": Passenger.objects.exclude(flights=flight).all()
     })
 
+@login_required
 def book(request, flight_id):
+    if not request.user.is_authenticated:
+        raise Http404("You don't have permission to unbook this passenger.")
+
     if request.method == "POST":
         flight = Flight.objects.get(pk=flight_id)
         passenger = Passenger.objects.get(pk=int(request.POST["passenger"]))
         passenger.flights.add(flight)
         return HttpResponseRedirect(reverse("flight", args=(flight_id,)))
 
+@login_required
 def unbook(request, flight_id):
+    if not request.user.is_authenticated:
+        raise Http404("You don't have permission to unbook this passenger.")
+
     if request.method == "POST":
         flight = Flight.objects.get(pk=flight_id)
         passenger = Passenger.objects.get(pk=int(request.POST["passenger"]))
@@ -95,6 +99,9 @@ def unbook(request, flight_id):
         return HttpResponseRedirect(reverse("flight", args=(flight_id,)))
 
 def create_passenger(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+
     if request.method == "POST":
         form = PassengerForm(request.POST)
         if form.is_valid():
@@ -130,6 +137,9 @@ def update_passenger(request, passenger_id):
     })
 
 def delete_passenger(request, passenger_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+        
     try:
         passenger = Passenger.objects.get(pk=passenger_id)
     except (Passenger.DoesNotExist, ValueError, ValidationError):
