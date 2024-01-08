@@ -16,7 +16,12 @@
                 </a>
             </li>
         {% endfor %}
+
+        {% if message %}
+            <div>{{ message }}</div>
+        {% endif %}
     </ul>
+    
 
     <a href="{% url 'airports' %}">Go to Airports List</a>
     </br >

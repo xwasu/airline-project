@@ -1,0 +1,12 @@
+{% extends 'flights/layout.html' %}
+
+{% block body %}
+  <h2>Update Passenger: {{ passenger.first }} {{ passenger.last }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update">
+  </form>
+
+  <a href="{% url 'passengers' %}">Back to Passenger List</a>
+{% endblock %}

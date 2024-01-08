@@ -5,8 +5,14 @@
     <ul>
         {% for passenger in passengers %}
             <li>Passenger: {{ passenger.first }} {{ passenger.last }}</li>
+            <a href="{% url 'update_passenger' passenger.id %}">Edit</a>
+            <a href="{% url 'delete_passenger' passenger.id %}">Delete</a>
         {% endfor %}
     </ul>
+
+    <a href="{% url 'create_passenger' %}">Create Passenger</a>
+
+    </br>
 
     <a href="{% url 'index' %}">Back to Flight List</a>
 {% endblock %}
