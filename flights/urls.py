@@ -6,6 +6,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
+    path("registration", views.registration, name="registration"),
     path("airports", views.airports, name="airports"),
     path("passengers", views.passengers, name="passengers"),
     path("<int:flight_id>", views.flight, name="flight"),

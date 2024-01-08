@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.core.exceptions import ValidationError
 
 from .models import Flight, Passenger, Airport
-from .forms import PassengerForm
+from .forms import PassengerForm, RegistrationForm
 
 
 # Create your views here.
@@ -35,6 +35,20 @@ def logout_view(request):
     logout(request)
     return render(request, "flights/login.html", {
         "message": "Logged out."
+    })
+
+def registration(request):
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return HttpResponseRedirect(reverse("index"))
+    else:
+        form = RegistrationForm()
+
+    return render(request, "flights/registration.html", {
+        "form": form,
     })
 
 def airports(request):
