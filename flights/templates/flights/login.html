@@ -1,19 +1,16 @@
 {% extends "flights/layout.html" %}
 
 {% block body %}
-
     {% if message %}
-        <div>{{ message }}</div>
+        <div id="message">{{ message }}</div>
     {% endif %}
 
-    <form action="{% url 'login' %}" method="post">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Login">
-    </form>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <input class="login-input" type="text" name="username" placeholder="Username">
+            <input class="login-input" type="password" name="password" placeholder="Password">
+            <input class="login-input" type="submit" value="Login">
+        </form>
 
-    <a href="{% url 'index' %}">Flights</a>
-
-    <a href="{% url 'registration' %}">Registration</a>
+    <button><a href="{% url 'registration' %}">Registration</a></button>
 {% endblock %}
