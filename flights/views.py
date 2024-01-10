@@ -51,8 +51,6 @@ def registration(request):
     })
 
 def airports(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
     return render(request, "flights/airports.html", {
         "airports": Airport.objects.all()
     })
