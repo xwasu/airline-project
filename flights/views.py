@@ -111,7 +111,7 @@ def flight(request, flight_id):
 
 def book(request, flight_id):
     if not request.user.is_authenticated:
-        raise Http404("You don't have permission to unbook this passenger.")
+        raise Http404("You don't have permission to book this passenger.")
 
     if request.method == "POST":
         flight = Flight.objects.get(pk=flight_id)
