@@ -1,0 +1,12 @@
+{% extends 'flights/layout.html' %}
+
+{% block body %}
+    <h2>Update Airport: {{ airport.code }} {{ airport.city }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Update">
+    </form>
+
+    <button><a href="{% url 'airports' %}">Back to Airports List</a></button>
+{% endblock %}

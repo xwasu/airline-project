@@ -5,8 +5,33 @@
     <ul>
         {% for airport in airports %}
             <li>Airport {{ airport.code }}: {{ airport.city }}</li>
+            <a href="{% url 'update_airport' airport.id %}">Edit</a>
+            <a href="{% url 'delete_airport' airport.id %}">Delete</a>
         {% endfor %}
     </ul>
 
+    <div class="pagination">
+        <span class="step-links">
+            {% if airports.has_previous %}
+                <a href="?page=1">pierwsza</a>
+                <a href="?page={{ airports.previous_page_number }}">poprzednia</a>
+            {% endif %}
+
+            <span class="current">
+                Strona {{ airports.number }} z {{ airports.paginator.num_pages }}.
+            </span>
+
+            {% if airports.has_next %}
+                <a href="?page={{ airports.next_page_number }}">następna</a>
+                <a href="?page={{ airports.paginator.num_pages }}">ostatnia</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <button><a href="{% url 'create_airport' %}">Create Airport</a></button>
+
+    </br>
+    </br>
+    
     <button><a href="{% url 'index' %}">Back to Flight List</a></button>
 {% endblock %}

@@ -22,10 +22,30 @@
                     Flight {{ flight.id }}: {{ flight.origin }} to {{ flight.destination }}
                 </a>
             </li>
+            <li>
+                <a href="{% url 'update_flight' flight.id %}">Edit</a>
+                <a href="{% url 'delete_flight' flight.id %}">Delete</a>
+            </li>
         {% endfor %}
 
-        {% if message %}
-            <div>{{ message }}</div>
-        {% endif %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if flights.has_previous %}
+                    <a href="?page=1">pierwsza</a>
+                    <a href="?page={{ flights.previous_page_number }}">poprzednia</a>
+                {% endif %}
+    
+                <span class="current">
+                    Strona {{ flights.number }} z {{ flights.paginator.num_pages }}.
+                </span>
+    
+                {% if flights.has_next %}
+                    <a href="?page={{ flights.next_page_number }}">następna</a>
+                    <a href="?page={{ flights.paginator.num_pages }}">ostatnia</a>
+                {% endif %}
+            </span>
+        </div>
     </ul>
+  
+    <button><a href="{% url 'create_flight' %}">Create Flight</a></button>
 {% endblock %}

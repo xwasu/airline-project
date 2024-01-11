@@ -10,6 +10,24 @@
         {% endfor %}
     </ul>
 
+    <div class="pagination">
+        <span class="step-links">
+            {% if passengers.has_previous %}
+                <a href="?page=1">pierwsza</a>
+                <a href="?page={{ passengers.previous_page_number }}">poprzednia</a>
+            {% endif %}
+
+            <span class="current">
+                Strona {{ passengers.number }} z {{ passengers.paginator.num_pages }}.
+            </span>
+
+            {% if passengers.has_next %}
+                <a href="?page={{ passengers.next_page_number }}">następna</a>
+                <a href="?page={{ passengers.paginator.num_pages }}">ostatnia</a>
+            {% endif %}
+        </span>
+    </div>
+
     <button><a href="{% url 'create_passenger' %}">Create Passenger</a></button>
 
     </br>
