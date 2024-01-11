@@ -136,8 +136,6 @@ def create_airport(request):
     if request.method == "POST":
         form = AirportForm(request.POST)
         if form.is_valid():
-            if not str(form.code):
-                return HttpResponseRedirect(reverse("login"))
             form.save()
             return HttpResponseRedirect(reverse("airports"))
     else:
